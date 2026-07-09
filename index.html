@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XV Años - Guadalupe Monserrat</title>
+    <style>
+        /* Configuración de la pantalla */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #fce4ec;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Contenedor de la Invitación */
+        .invitation-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px; 
+            aspect-ratio: 782 / 1173; 
+            
+            /* REEMPLAZA ESTO: Pon aquí el enlace de tu imagen subida a internet */
+            background-image: url('https://x02.me/i/PEUZQ.png'); 
+            
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* AJUSTE: Contador más compacto y cerrado hacia el centro */
+        .countdown-overlay {
+            position: absolute;
+            top: 47%; 
+            left: 18%; /* Se aumentó el margen izquierdo para juntarlos al centro */
+            right: 20%; /* Se aumentó el margen derecho para juntarlos al centro */
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .countdown-box {
+            width: 20%; /* Cajas ligeramente más angostas para centrar el texto */
+            text-align: center;
+        }
+
+        /* Color guinda/vino de tu invitación */
+        .countdown-number {
+            font-size: clamp(1.2rem, 5vw, 2.2rem); 
+            font-weight: bold;
+            color: #88163b; 
+            display: block;
+            font-family: Arial, sans-serif;
+        }
+
+        /* AJUSTE: Botón invisible desplazado hacia abajo */
+        .maps-button-overlay {
+            position: absolute;
+            bottom: 16.2%; /* Se bajó el porcentaje (antes 18.5%) para desplazarlo ~10mm hacia abajo */
+            left: 22%;
+            width: 56%;
+            height: 4.8%;
+            border-radius: 30px;
+            cursor: pointer;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0); 
+            transition: background-color 0.2s;
+        }
+
+        /* Efecto sutil al pasar el mouse */
+        .maps-button-overlay:hover {
+            background-color: rgba(136, 22, 59, 0.15); 
+        }
+
+        /* Mensaje de finalización */
+        #expired-message {
+            display: none;
+            position: absolute;
+            top: 47%;
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #88163b;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invitation-container">
+        
+        <div class="countdown-overlay" id="countdown">
+            <div class="countdown-box">
+                <span class="countdown-number" id="days">000</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-number" id="hours">00</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-number" id="minutes">00</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-number" id="seconds">00</span>
+            </div>
+        </div>
+
+        <a href="https://maps.google.com/?q=Ave.+Andromeda,+Av+Nuevo+Las+Puentes+112,+Col+Nuevo+Las+Puentes,+66612+Cdad.+Apodaca,+N.L." 
+           target="_blank" 
+           class="maps-button-overlay" 
+           title="Ver en Google Maps">
+        </a>
+
+        <div id="expired-message">¡El evento ha comenzado!</div>
+    </div>
+
+    <script>
+        // Fecha exacta: 15 de Agosto de 2026. (Mes 7 = Agosto)
+        const eventDate = new Date(2026, 7, 15, 18, 0, 0).getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const timeLeft = eventDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            if (timeLeft < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").style.display = "none";
+                document.getElementById("expired-message").style.display = "block";
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
